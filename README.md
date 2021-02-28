@@ -16,4 +16,5 @@ If you're interested in building off this example, just do the following
 The minimum to get a working example!
 1. Run `yarn deploy`
 2. Test in terminal with `yarn test`
-3. Check your lambdas on AWS, it should be there
+3. Check your lambdas on AWS, it should be there. Configure the testing event
+with your name!
