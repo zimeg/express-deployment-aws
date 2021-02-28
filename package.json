@@ -2,6 +2,7 @@
   "name": "serverless_express_example",
   "version": "0.0.2",
   "license": "ISC",
+  "files": ["*", "!event.json"],
   "scripts": {
     "lint": "yarn run eslint ./",
     "lambda": "claudia test-lambda --event event.json",
