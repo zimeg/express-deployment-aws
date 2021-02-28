@@ -5,6 +5,7 @@
   "scripts": {
     "lint": "yarn run eslint ./",
     "lambda": "claudia test-lambda",
+    "update": "claudia update",
     "deploy": "claudia create --version dev --region us-east-1 --handler lambda.handler --role claudia-global"
   },
   "devDependencies": {
