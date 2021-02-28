@@ -1,10 +1,10 @@
 {
   "name": "serverless_express_example",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "ISC",
   "scripts": {
     "lint": "yarn run eslint ./",
-    "lambda": "claudia test-lambda",
+    "lambda": "claudia test-lambda --event event.json",
     "update": "claudia update",
     "deploy": "claudia create --version dev --region us-east-1 --handler lambda.handler --role claudia-global"
   },

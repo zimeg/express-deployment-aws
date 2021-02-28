@@ -1,3 +1,3 @@
 exports.handler = (event, context) => {
-  context.succeed('hello world');
+  context.succeed(`hello ${event.name ? event.name : 'world'}`);
 };
