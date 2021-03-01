@@ -1,6 +1,6 @@
 {
   "name": "serverless_express_example",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "ISC",
   "repository": "https://github.com/Zimboboys/mern-deployment-aws",
   "files": [
