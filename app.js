@@ -10,8 +10,9 @@ api.get('/hello', (req) => (
 ));
 
 if (DEV) {
+  // eslint-disable-next-line no-console
   console.log('running in dev mode');
-  app.get('/', (req, res) => res.send('hi'))
+  app.get('/', (req, res) => res.send('hi'));
   app.listen(3000);
 }
 
