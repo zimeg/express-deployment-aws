@@ -1,5 +1,4 @@
-// TODO: replace types with the req/res types from AWS and express
-const square = (req: any, res: any) => {
+const square = (req, res) => {
   const { n } = req.body;
 
   if (n === undefined || Number.isNaN(Number(n))) {
