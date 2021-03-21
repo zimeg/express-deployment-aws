@@ -3,4 +3,5 @@ node_modules/
 *.swp
 
 # deployment artifacts
+dist/
 sam-template.packaged.yaml

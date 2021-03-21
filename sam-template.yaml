@@ -25,7 +25,7 @@ Resources:
   ExpressLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ./backend
+      CodeUri: ./dist
       Handler: main.handler
       MemorySize: 1024
       Runtime: nodejs12.x

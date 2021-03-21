@@ -17,11 +17,12 @@
   },
   "scripts": {
     "lint": "yarn run eslint ./",
+    "build": "webpack-cli",
     "setup": "(cross-var aws s3api get-bucket-location --bucket $npm_package_config_s3BucketName --region $npm_package_config_region || yarn run create-bucket) && yarn run package-deploy",
     "create-bucket": "cross-var aws s3 mb s3://$npm_package_config_s3BucketName --region $npm_package_config_region",
     "package": "cross-var aws cloudformation package --template ./sam-template.yaml --s3-bucket $npm_package_config_s3BucketName --output-template sam-template.packaged.yaml --region $npm_package_config_region",
     "deploy": "cross-var aws cloudformation deploy --template-file sam-template.packaged.yaml --stack-name $npm_package_config_cloudFormationStackName --capabilities CAPABILITY_IAM --region $npm_package_config_region --parameter-overrides DomainName=$npm_package_config_domain",
-    "package-deploy": "yarn run package && yarn run deploy"
+    "package-deploy": "yarn run build && yarn run package && yarn run deploy"
   },
   "devDependencies": {
     "eslint": "^7.2.0",
@@ -30,6 +31,9 @@
   },
   "dependencies": {
     "@vendia/serverless-express": "^4.3.4",
-    "cross-var": "^1.1.0"
+    "cross-var": "^1.1.0",
+    "source-map-support": "^0.5.19",
+    "webpack": "^5.27.1",
+    "webpack-cli": "^4.5.0"
   }
 }
