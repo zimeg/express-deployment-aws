@@ -3,7 +3,7 @@ const controllers = require('./controllers');
 
 const router = express.Router();
 
-router.get('/', (req, res) => res.send('Hi from the API'));
+router.get('/', (req, res) => res.json({ msg: 'Hi from the API' }));
 
 router.get('/square', controllers.square);
 

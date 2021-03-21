@@ -5,7 +5,7 @@ const app = express();
 
 app.use(express.json());
 
-app.get('/', (req, res) => res.send('Hello from Express!'));
+app.get('/', (req, res) => res.json({ msg: 'Hello from Express!' }));
 app.use('/api', routes);
 
 if (process.argv.includes('dev')) {
