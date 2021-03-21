@@ -1,0 +1,25 @@
+name: 'Express Deployment AWS'
+description: 'Automatically deploy an Express app to API Gateway/Lambda'
+inputs:
+  s3-bucket:
+    description: 's3 bucket to store builds'
+    required: true
+  region:
+    description: 'Region to deploy to'
+    required: true
+    default: 'us-east-1'
+  stack-name:
+    description: 'Cloud Formation stack name'
+    required: true
+outputs:
+  api-url:
+    description: 'URL of the API'
+    value: ${{ steps.get-url.outputs.api-url }}
+runs:
+  using: "composite"
+  steps:
+    - run: echo Deploying to bucket ${{ s3-bucket }} in ${{ inputs.region }}
+      shell: bash
+    - id: get-url
+      run: echo "::set-output name=api-url::$(echo example.com)"
+      shell: bash
