@@ -1,6 +1,6 @@
 {
   "name": "serverless_express_example",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "ISC",
   "repository": "https://github.com/Zimboboys/mern-deployment-aws",
   "files": [
@@ -8,8 +8,20 @@
     "!backend/",
     "!frontend/"
   ],
+  "config": {
+    "s3BucketName": "simple-api-practice",
+    "region": "us-east-1",
+    "cloudFormationStackName": "simple-api",
+    "functionName": "",
+    "domain": ""
+  },
   "scripts": {
-    "lint": "yarn run eslint ./"
+    "lint": "yarn run eslint ./",
+    "setup": "(cross-var aws s3api get-bucket-location --bucket $npm_package_config_s3BucketName --region $npm_package_config_region || yarn run create-bucket) && yarn run package-deploy",
+    "create-bucket": "cross-var aws s3 mb s3://$npm_package_config_s3BucketName --region $npm_package_config_region",
+    "package": "cross-var aws cloudformation package --template ./sam-template.yaml --s3-bucket $npm_package_config_s3BucketName --output-template sam-template.packaged.yaml --region $npm_package_config_region",
+    "deploy": "cross-var aws cloudformation deploy --template-file sam-template.packaged.yaml --stack-name $npm_package_config_cloudFormationStackName --capabilities CAPABILITY_IAM --region $npm_package_config_region --parameter-overrides DomainName=$npm_package_config_domain",
+    "package-deploy": "yarn run package && yarn run deploy"
   },
   "devDependencies": {
     "eslint": "^7.2.0",
@@ -17,6 +29,7 @@
     "eslint-plugin-import": "^2.22.1"
   },
   "dependencies": {
-    "@vendia/serverless-express": "^4.3.4"
+    "@vendia/serverless-express": "^4.3.4",
+    "cross-var": "^1.1.0"
   }
 }
