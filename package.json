@@ -32,6 +32,7 @@
   "dependencies": {
     "@vendia/serverless-express": "^4.3.4",
     "cross-var": "^1.1.0",
+    "dotenv-webpack": "^7.0.2",
     "source-map-support": "^0.5.19",
     "webpack": "^5.27.1",
     "webpack-cli": "^4.5.0"

@@ -1,4 +1,5 @@
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: './lambda.js',
@@ -10,4 +11,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     libraryTarget: 'commonjs2',
   },
+  plugins: [
+    new Dotenv({ path: './backend/.env' }),
+  ],
 };
