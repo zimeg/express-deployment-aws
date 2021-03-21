@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.get('/', (req, res) => res.json({ msg: 'Hi from the API' }));
 
-router.get('/square', controllers.square);
+router.post('/square', controllers.square);
 
 module.exports = router;
