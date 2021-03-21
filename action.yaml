@@ -18,7 +18,7 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - run: echo Deploying to bucket ${{ s3-bucket }} in ${{ inputs.region }}
+    - run: echo Deploying to bucket ${{ inputs.s3-bucket }} in ${{ inputs.region }}
       shell: bash
     - id: get-url
       run: echo "::set-output name=api-url::$(echo example.com)"
