@@ -44,7 +44,9 @@ runs:
 
       # TODO: check if region can be removed
     - name: Package backend
-      run: aws cloudformation package --template ./sam-template.yaml --s3-bucket ${{ inputs.s3-bucket }} --output-template sam-template.packaged.yaml --region ${{ inputs.region }}
+      run: |
+        cp ${{ github.action_path }}/sam-template.yaml .
+        aws cloudformation package --template ./sam-template.yaml --s3-bucket ${{ inputs.s3-bucket }} --output-template sam-template.packaged.yaml --region ${{ inputs.region }}
       shell: bash
 
       # TODO: test domain
