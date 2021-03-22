@@ -1,9 +1,12 @@
 name: 'Express Deployment AWS'
 description: 'Automatically deploy an Express app to API Gateway/Lambda'
+
 inputs:
   s3-bucket:
     description: 's3 bucket to store builds'
     required: true
+
+  # Region may be removable. Provided by aws-actions/configure-aws-credentials@v1?
   region:
     description: 'Region to deploy to'
     required: true
@@ -11,15 +14,25 @@ inputs:
   stack-name:
     description: 'Cloud Formation stack name'
     required: true
+
 outputs:
   api-url:
     description: 'URL of the API'
     value: ${{ steps.get-url.outputs.api-url }}
+
+defaults:
+  run:
+    shell: bash
+
 runs:
   using: "composite"
   steps:
-    - run: echo Deploying to bucket ${{ inputs.s3-bucket }} in ${{ inputs.region }}
-      shell: bash
+    - name: Install dependencies
+      run: yarn install
+    - name: Compile backend
+      run: webpack-cli
+    - name: Upload compilation
+      run: aws s3 sync ./dist s3://${{ inputs.s3-bucket }}
+    - run: echo 'uploaded to bucket!'
     - id: get-url
       run: echo "::set-output name=api-url::$(echo example.com)"
-      shell: bash
