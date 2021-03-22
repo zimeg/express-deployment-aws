@@ -27,7 +27,7 @@ runs:
       run: aws s3 sync ${{ github.action_path }} s3://${{ inputs.s3-bucket }}
       shell: bash
 
-    - run: echo 'uploaded to bucket!'
+    - run: echo ${{ github.event }}
       shell: bash
 
     - id: get-url
