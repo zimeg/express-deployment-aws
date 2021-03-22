@@ -54,10 +54,8 @@ runs:
       run: aws cloudformation deploy --template-file sam-template.packaged.yaml --stack-name ${{ inputs.stack-name }} --capabilities CAPABILITY_IAM --region ${{ inputs.region }} --parameter-overrides DomainName=${{ inputs.domain }}
       shell: bash
 
-    - name: Upload file
-      run: aws s3 sync ./dist s3://${{ inputs.s3-bucket }}
-      shell: bash
-
     - id: get-url
-      run: echo "::set-output name=api-url::$(echo example.com)"
+      run: |
+        url=$(aws cloudformation --region ${{ inputs.region }} describe-stacks --stack-name ${{ inputs.stack-name }} --query \"Stacks[0].Outputs[?OutputKey=='ApiUrl'].OutputValue\" --output text)
+        echo "::set-output name=api-url::$url"
       shell: bash
