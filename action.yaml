@@ -5,12 +5,6 @@ inputs:
   s3-bucket:
     description: 's3 bucket to store builds'
     required: true
-
-  # Region may be removable. Provided by aws-actions/configure-aws-credentials@v1?
-  region:
-    description: 'Region to deploy to'
-    required: true
-    default: 'us-east-1'
   stack-name:
     description: 'Cloud Formation stack name'
     required: true
@@ -32,9 +26,8 @@ runs:
       run: npm install --production
       shell: bash
 
-      # Kind of hacky, but should hold
     - name: Declare env variables
-      run: printenv > ./backend/.env
+      run: printenv > ./backend/.env # hacky, but should hold
       shell: bash
 
     - name: Compile backend
@@ -52,15 +45,15 @@ runs:
     - name: Package backend
       run: |
         cp ${{ github.action_path }}/sam-template.yaml .
-        aws cloudformation package --template ./sam-template.yaml --s3-bucket ${{ inputs.s3-bucket }} --output-template sam-template.packaged.yaml --region ${{ inputs.region }}
+        aws cloudformation package --template ./sam-template.yaml --s3-bucket ${{ inputs.s3-bucket }} --output-template sam-template.packaged.yaml
       shell: bash
 
     - name: Deploy backend
-      run: aws cloudformation deploy --template-file sam-template.packaged.yaml --stack-name ${{ inputs.stack-name }} --capabilities CAPABILITY_IAM --region ${{ inputs.region }} --parameter-overrides DomainName=${{ inputs.domain }}
+      run: aws cloudformation deploy --template-file sam-template.packaged.yaml --stack-name ${{ inputs.stack-name }} --capabilities CAPABILITY_IAM --parameter-overrides DomainName=${{ inputs.domain }}
       shell: bash
 
     - id: get-url
       run: |
-        url=$(aws cloudformation --region ${{ inputs.region }} describe-stacks --stack-name ${{ inputs.stack-name }} --query "Stacks[0].Outputs[?OutputKey=='ApiUrl'].OutputValue" --output text)
+        url=$(aws cloudformation describe-stacks --stack-name ${{ inputs.stack-name }} --query "Stacks[0].Outputs[?OutputKey=='ApiUrl'].OutputValue" --output text)
         echo "::set-output name=api-url::$(echo $url)"
       shell: bash
