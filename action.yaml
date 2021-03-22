@@ -23,6 +23,8 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - uses: actions/checkout@v2
+
     - name: Install dependencies
       run: yarn install
       shell: bash
