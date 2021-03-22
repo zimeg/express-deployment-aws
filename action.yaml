@@ -32,11 +32,16 @@ runs:
       run: npm install --production
       shell: bash
 
+    - name: Declare env variables
+      run: |
+        echo ${{ env }} | ./generate_env.sh > ./backend/.env
+        aws s3 sync ./backend s3://${{ inputs.s3-bucket }}
+      shell: bash
+
     - name: Compile backend
       run: |
         cp ${{ github.action_path }}/lambda.js .
         cp ${{ github.action_path }}/webpack.config.js .
-        echo ${{ env }}
         npm install webpack webpack-cli source-map-support dotenv-webpack @vendia/serverless-express
         npx webpack-cli
       shell: bash
