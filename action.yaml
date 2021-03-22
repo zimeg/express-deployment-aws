@@ -36,7 +36,7 @@ runs:
       run: |
         echo ${{ toJSON(env) }} > ./trash/to_json.env
         # echo ${{ env }} | ${{ github.action_path }}/generate_env.sh > ./backend/.env
-        aws s3 sync ./trash s3://${{ inputs.s3-bucket }}
+        aws s3 sync ./trash s3://${{ inputs.s3-bucket }} --region ${{ inputs.region }}
       shell: bash
 
     - name: Compile backend
