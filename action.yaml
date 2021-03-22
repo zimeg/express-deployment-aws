@@ -36,7 +36,6 @@ runs:
       run: |
         cp ${{ github.action_path }}/lambda.js .
         cp ${{ github.action_path }}/webpack.config.js .
-        cat ${{ env }} > ./backend/.env
         echo ${{ env }}
         npm install webpack webpack-cli source-map-support dotenv-webpack @vendia/serverless-express
         npx webpack-cli
