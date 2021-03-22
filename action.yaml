@@ -14,6 +14,10 @@ inputs:
   stack-name:
     description: 'Cloud Formation stack name'
     required: true
+  domain:
+    description: 'Domain to deploy to'
+    required: false
+    default: ''
 
 outputs:
   api-url:
@@ -36,14 +40,20 @@ runs:
         npx webpack-cli
       shell: bash
 
+      # TODO: create bucket if non-existant
+
+      # TODO: check if region can be removed
+    - name: Package backend
+      run: aws cloudformation package --template ./sam-template.yaml --s3-bucket ${{ inputs.s3-bucket }} --output-template sam-template.packaged.yaml --region ${{ inputs.region }}
+      shell: bash
+
+      # TODO: test domain
+    - name: Deploy backend
+      run: aws cloudformation deploy --template-file sam-template.packaged.yaml --stack-name ${{ inputs.stack-name }} --capabilities CAPABILITY_IAM --region ${{ inputs.region }} --parameter-overrides DomainName=${{ inputs.domain }}
+      shell: bash
+
     - name: Upload file
       run: aws s3 sync ./dist s3://${{ inputs.s3-bucket }}
-      shell: bash
-
-    - run: ls -R
-      shell: bash
-
-    - run: pwd
       shell: bash
 
     - id: get-url
