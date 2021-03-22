@@ -32,11 +32,9 @@ runs:
       run: npm install --production
       shell: bash
 
+      # Kind of hacky, but should hold
     - name: Declare env variables
-      run: |
-        mkdir trash
-        printenv > ./trash/to_json.env
-        aws s3 sync ./trash s3://${{ inputs.s3-bucket }} --region ${{ inputs.region }}
+      run: printenv > ./backend/.env
       shell: bash
 
     - name: Compile backend
