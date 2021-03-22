@@ -27,7 +27,7 @@ runs:
       run: aws s3 sync ${{ github.action_path }} s3://${{ inputs.s3-bucket }}
       shell: bash
 
-    - run: echo ${{ github.event }}
+    - run: ls -R
       shell: bash
 
     - id: get-url
