@@ -20,19 +20,24 @@ outputs:
     description: 'URL of the API'
     value: ${{ steps.get-url.outputs.api-url }}
 
-defaults:
-  run:
-    shell: bash
-
 runs:
   using: "composite"
   steps:
     - name: Install dependencies
       run: yarn install
+      shell: bash
+
     - name: Compile backend
       run: webpack-cli
+      shell: bash
+
     - name: Upload compilation
       run: aws s3 sync ./dist s3://${{ inputs.s3-bucket }}
+      shell: bash
+
     - run: echo 'uploaded to bucket!'
+      shell: bash
+
     - id: get-url
       run: echo "::set-output name=api-url::$(echo example.com)"
+      shell: bash
