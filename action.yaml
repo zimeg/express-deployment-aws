@@ -40,16 +40,16 @@ runs:
         npx webpack-cli
       shell: bash
 
-      # TODO: create bucket if non-existant
+    - name: Create bucket
+      run: (aws s3api get-bucket-location --bucket ${{ inputs.s3-bucket }} || aws s3 mb s3://${{ inputs.s3-bucket }})
+      shell: bash
 
-      # TODO: check if region can be removed
     - name: Package backend
       run: |
         cp ${{ github.action_path }}/sam-template.yaml .
         aws cloudformation package --template ./sam-template.yaml --s3-bucket ${{ inputs.s3-bucket }} --output-template sam-template.packaged.yaml --region ${{ inputs.region }}
       shell: bash
 
-      # TODO: test domain
     - name: Deploy backend
       run: aws cloudformation deploy --template-file sam-template.packaged.yaml --stack-name ${{ inputs.stack-name }} --capabilities CAPABILITY_IAM --region ${{ inputs.region }} --parameter-overrides DomainName=${{ inputs.domain }}
       shell: bash
@@ -57,6 +57,5 @@ runs:
     - id: get-url
       run: |
         url=$(aws cloudformation --region ${{ inputs.region }} describe-stacks --stack-name ${{ inputs.stack-name }} --query "Stacks[0].Outputs[?OutputKey=='ApiUrl'].OutputValue" --output text)
-        echo $url
         echo "::set-output name=api-url::$(echo $url)"
       shell: bash
