@@ -1,5 +1,4 @@
-.env
-node_modules/
+# dev stuff
 *.swp
 
 # deployment artifacts
