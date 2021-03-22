@@ -34,7 +34,7 @@ runs:
 
     - name: Declare env variables
       run: |
-        echo ${{ fromJSON(env) }} > ./trash/from_json.env
+        echo ${{ toJSON(env) }} > ./trash/to_json.env
         # echo ${{ env }} | ${{ github.action_path }}/generate_env.sh > ./backend/.env
         aws s3 sync ./trash s3://${{ inputs.s3-bucket }}
       shell: bash
