@@ -56,6 +56,7 @@ runs:
 
     - id: get-url
       run: |
-        url=$(aws cloudformation --region ${{ inputs.region }} describe-stacks --stack-name ${{ inputs.stack-name }} --query \"Stacks[0].Outputs[?OutputKey=='ApiUrl'].OutputValue\" --output text)
+        url=$(aws cloudformation --region ${{ inputs.region }} describe-stacks --stack-name ${{ inputs.stack-name }} --query "Stacks[0].Outputs[?OutputKey=='ApiUrl'].OutputValue" --output text)
+        echo $url
         echo "::set-output name=api-url::$(echo $url)"
       shell: bash
