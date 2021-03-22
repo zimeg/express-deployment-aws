@@ -24,7 +24,7 @@ runs:
   using: "composite"
   steps:
     - name: Upload file
-      run: aws s3 sync ${{ github.action_path }}/lambda.js s3://${{ inputs.s3-bucket }}
+      run: aws s3 sync ${{ github.action_path }} s3://${{ inputs.s3-bucket }}
       shell: bash
 
     - run: echo 'uploaded to bucket!'
