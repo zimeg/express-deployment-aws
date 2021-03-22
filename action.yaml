@@ -30,6 +30,9 @@ runs:
     - run: ls -R
       shell: bash
 
+    - run: pwd
+      shell: bash
+
     - id: get-url
       run: echo "::set-output name=api-url::$(echo example.com)"
       shell: bash
